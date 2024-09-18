@@ -196,13 +196,20 @@ ldflags-gnu-y   += --specs=nano.specs
 # Garbage collect unreferred sections when linking.
 ldflags-gnu-y   += -Wl,--gc-sections
 
+# If a custom build directory is specified, use it -- force trailing / in directory name.
+ifdef BUILD_DIR
+	build-dir       := $(dir $(BUILD_DIR))$(if $(notdir $(BUILD_DIR)),$(notdir $(BUILD_DIR))/)
+else
+	build-dir        =
+endif
+
 # Use the linker script if provided by the project.
 ifneq ($(strip $(linker_script)),)
 ldflags-gnu-y   += -Wl,-T $(linker_script)
 endif
 
 # Output a link map file and a cross reference table
-ldflags-gnu-y   += -Wl,-Map=$(project).map,--cref
+ldflags-gnu-y   += -Wl,-Map=$(build-dir)$(project).map,--cref
 
 # Add library search paths relative to the top level directory.
 ldflags-gnu-y   += $(foreach _LIB_PATH,$(addprefix $(PRJ_PATH)/,$(LIB_PATH)),-L$(_LIB_PATH))
@@ -213,16 +220,10 @@ cxx_flags= $(cpuflags-gnu-y) $(dbgflags-gnu-y) $(depflags) $(optflags-gnu-y) $(c
 l_flags  = -Wl,--entry=Reset_Handler -Wl,--cref $(cpuflags-gnu-y) $(optflags-gnu-y) $(ldflags-gnu-y)
 ar_flags = $(arflags-gnu-y)
 
-# If a custom build directory is specified, use it -- force trailing / in directory name.
-ifdef BUILD_DIR
-	build-dir       := $(dir $(BUILD_DIR))$(if $(notdir $(BUILD_DIR)),$(notdir $(BUILD_DIR))/)
-else
-	build-dir        =
-endif
 
 # Create object files list from source files list.
 obj-y                   := $(addprefix $(build-dir), $(addsuffix .o,$(basename $(CSRCS) $(ASSRCS))))
-obj-y										+= main.o
+obj-y										+= $(addprefix $(build-dir), main.o)
 #$(info $$obj-y is [${obj-y}])
 # Create dependency files list from source files list.
 dep-files               := $(wildcard $(foreach f,$(obj-y),$(basename $(f)).d))
@@ -330,29 +331,29 @@ ifeq ($(target_type),elf)
 # if the common Makefile.sam.in or project config.mk is changed.
 $(target): $(linker_script) $(MAKEFILE_PATH) config.mk $(obj-y)
 	@echo $(MSG_LINKING)
-	$(Q)$(LD) $(l_flags) $(obj-y) $(libflags-gnu-y) -o $@
+	$(Q)$(LD) $(l_flags) $(obj-y) $(libflags-gnu-y) -o $(build-dir)$@
 	@echo $(MSG_SIZE)
-	$(Q)$(SIZE) -Ax $@
-	$(Q)$(SIZE) -Bx $@
+	$(Q)$(SIZE) -Ax $(build-dir)$@
+	$(Q)$(SIZE) -Bx $(build-dir)$@
 endif
 endif
 
 # Create extended function listing from target output file.
-%.lss: $(target)
+%.lss: $(build-dir)$(target)
 	@echo $(MSG_EXTENDED_LISTING)
-	$(Q)$(OBJDUMP) -h -S $< > $@
+	$(Q)$(OBJDUMP) -h -S $< > $(build-dir)$@
 
 # Create symbol table from target output file.
-%.sym: $(target)
+%.sym: $(build-dir)$(target)
 	@echo $(MSG_SYMBOL_TABLE)
-	$(Q)$(NM) -n $< > $@
+	$(Q)$(NM) -n $< > $(build-dir)$@
 
 # Create Intel HEX image from ELF output file.
-%.hex: $(target)
+%.hex: $(build-dir)$(target)
 	@echo $(MSG_IHEX_IMAGE)
-	$(Q)$(OBJCOPY) -O ihex $(flashflags-gnu-y)  $< $@
+	$(Q)$(OBJCOPY) -O ihex $(flashflags-gnu-y)  $< $(build-dir)$@
 
 # Create binary image from ELF output file.
-%.bin: $(target)
+%.bin: $(build-dir)$(target)
 	@echo $(MSG_BINARY_IMAGE)
-	$(Q)$(OBJCOPY) -O binary $< $@
+	$(Q)$(OBJCOPY) -O binary $< $(build-dir)$@
