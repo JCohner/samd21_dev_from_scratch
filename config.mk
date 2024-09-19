@@ -37,7 +37,7 @@
 #
 
 # Path to top level ASF directory relative to this project directory.
-PRJ_PATH = /home/jambox/asf-standalone/xdk-asf-3.52.0
+ASF_PRJ_PATH = /home/jambox/asf-standalone/xdk-asf-3.52.0
 
 # Target CPU architecture: cortex-m3, cortex-m4
 ARCH = cortex-m0
@@ -52,12 +52,12 @@ TARGET_SRAM =samd21_fuck_sram.elf
 
 # List of C source files.
 CSRCS = \
-       common/utils/interrupt/interrupt_sam_nvic.c        \
-       sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c \
-       sam0/utils/cmsis/samd21/source/system_samd21.c     \
-       sam0/utils/stdio/read.c                            \
-       sam0/utils/stdio/write.c                           \
-       sam0/utils/syscalls/gcc/syscalls.c
+       $(ASF_PRJ_PATH)/common/utils/interrupt/interrupt_sam_nvic.c        \
+       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c \
+       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source/system_samd21.c     \
+       $(ASF_PRJ_PATH)/sam0/utils/stdio/read.c                            \
+       $(ASF_PRJ_PATH)/sam0/utils/stdio/write.c                           \
+       $(ASF_PRJ_PATH)/sam0/utils/syscalls/gcc/syscalls.c
 
 # List of assembler source files.
 ASSRCS = 

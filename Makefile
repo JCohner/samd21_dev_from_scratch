@@ -1,7 +1,7 @@
 include config.mk
 
 # Look for source files relative to the top-level source directory
-VPATH           := $(PRJ_PATH)
+# VPATH           := $(ASF_PRJ_PATH)
 
 # Output target file
 project_type    := $(PROJECT_TYPE)
@@ -9,12 +9,12 @@ project_type    := $(PROJECT_TYPE)
 # Output target file
 ifeq ($(project_type),flash)
 target          := $(TARGET_FLASH)
-linker_script   := $(PRJ_PATH)/$(LINKER_SCRIPT_FLASH)
-debug_script    := $(PRJ_PATH)/$(DEBUG_SCRIPT_FLASH)
+linker_script   := $(ASF_PRJ_PATH)/$(LINKER_SCRIPT_FLASH)
+debug_script    := $(ASF_PRJ_PATH)/$(DEBUG_SCRIPT_FLASH)
 else
 target          := $(TARGET_SRAM)
-linker_script   := $(PRJ_PATH)/$(LINKER_SCRIPT_SRAM)
-debug_script    := $(PRJ_PATH)/$(DEBUG_SCRIPT_SRAM)
+linker_script   := $(ASF_PRJ_PATH)/$(LINKER_SCRIPT_SRAM)
+debug_script    := $(ASF_PRJ_PATH)/$(DEBUG_SCRIPT_SRAM)
 endif
 
 # Output project name (target name minus suffix)
@@ -134,8 +134,8 @@ cflags-gnu-y    += -Wpointer-arith
 cxxflags-gnu-y  += -Wpointer-arith
 
 # Preprocessor flags.
-cppflags-gnu-y  += $(foreach INC,$(addprefix $(PRJ_PATH)/,$(INC_PATH)),-I$(INC))
-asflags-gnu-y   += $(foreach INC,$(addprefix $(PRJ_PATH)/,$(INC_PATH)),'-Wa,-I$(INC)')
+cppflags-gnu-y  += $(foreach INC,$(addprefix $(ASF_PRJ_PATH)/,$(INC_PATH)),-I$(INC))
+asflags-gnu-y   += $(foreach INC,$(addprefix $(ASF_PRJ_PATH)/,$(INC_PATH)),'-Wa,-I$(INC)')
 
 # CPU specific flags.
 cpuflags-gnu-y  += -mcpu=$(ARCH) -mthumb -D=__$(PART)__
@@ -212,7 +212,7 @@ endif
 ldflags-gnu-y   += -Wl,-Map=$(build-dir)$(project).map,--cref
 
 # Add library search paths relative to the top level directory.
-ldflags-gnu-y   += $(foreach _LIB_PATH,$(addprefix $(PRJ_PATH)/,$(LIB_PATH)),-L$(_LIB_PATH))
+ldflags-gnu-y   += $(foreach _LIB_PATH,$(addprefix $(ASF_PRJ_PATH)/,$(LIB_PATH)),-L$(_LIB_PATH))
 
 a_flags  = $(cpuflags-gnu-y) $(depflags) $(cppflags-gnu-y) $(asflags-gnu-y) -D__ASSEMBLY__
 c_flags  = $(cpuflags-gnu-y) $(dbgflags-gnu-y) $(depflags) $(optflags-gnu-y) $(cppflags-gnu-y) $(cflags-gnu-y)
@@ -224,6 +224,7 @@ ar_flags = $(arflags-gnu-y)
 # Create object files list from source files list.
 obj-y                   := $(addprefix $(build-dir), $(addsuffix .o,$(basename $(CSRCS) $(ASSRCS))))
 obj-y										+= $(addprefix $(build-dir), main.o)
+$(info    obj-y is $(obj-y))
 #$(info $$obj-y is [${obj-y}])
 # Create dependency files list from source files list.
 dep-files               := $(wildcard $(foreach f,$(obj-y),$(basename $(f)).d))
