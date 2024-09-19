@@ -38,6 +38,7 @@
 
 # Path to top level ASF directory relative to this project directory.
 ASF_PRJ_PATH = /home/jambox/asf-standalone/xdk-asf-3.52.0
+ARDUINO_PRJ_PATH = /home/jambox/ArduinoCore-samd/cores/arduino
 
 # Target CPU architecture: cortex-m3, cortex-m4
 ARCH = cortex-m0
@@ -64,18 +65,18 @@ ASSRCS =
 
 # List of include paths.
 INC_PATH = \
-       common/boards                                      \
-       common/services/serial                             \
-       common/utils                                       \
-       sam0/boards                                        \
-       sam0/utils                                         \
-       sam0/utils/cmsis/samd21/include                    \
-       sam0/utils/cmsis/samd21/source                     \
-       sam0/utils/header_files                            \
-       sam0/utils/preprocessor                            \
-       sam0/utils/stdio/stdio_serial                      \
-       thirdparty/CMSIS/Include                           \
-       thirdparty/CMSIS/Lib/GCC \
+       $(ASF_PRJ_PATH)/common/boards                                      \
+       $(ASF_PRJ_PATH)/common/services/serial                             \
+       $(ASF_PRJ_PATH)/common/utils                                       \
+       $(ASF_PRJ_PATH)/sam0/boards                                        \
+       $(ASF_PRJ_PATH)/sam0/utils                                         \
+       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/include                    \
+       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source                     \
+       $(ASF_PRJ_PATH)/sam0/utils/header_files                            \
+       $(ASF_PRJ_PATH)/sam0/utils/preprocessor                            \
+       $(ASF_PRJ_PATH)/sam0/utils/stdio/stdio_serial                      \
+       $(ASF_PRJ_PATH)/thirdparty/CMSIS/Include                           \
+       $(ASF_PRJ_PATH)/thirdparty/CMSIS/Lib/GCC \
 
 # Additional search paths for libraries.
 LIB_PATH =  \
