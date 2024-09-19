@@ -9,7 +9,7 @@ project_type    := $(PROJECT_TYPE)
 # Output target file
 ifeq ($(project_type),flash)
 target          := $(TARGET_FLASH)
-linker_script   := $(ASF_PRJ_PATH)/$(LINKER_SCRIPT_FLASH)
+linker_script   := $(LINKER_SCRIPT_FLASH)
 debug_script    := $(ASF_PRJ_PATH)/$(DEBUG_SCRIPT_FLASH)
 else
 target          := $(TARGET_SRAM)

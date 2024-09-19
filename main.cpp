@@ -29,6 +29,13 @@ extern USBDeviceClass USBDevice;
 // Initialize C library
 extern "C" void __libc_init_array(void);
 
+void loop(){
+    digitalWrite(13, HIGH);
+    delay(1000);
+    digitalWrite(13, LOW);
+    delay(1000);
+}
+
 /*
  * \brief Main entry point of Arduino application
  */
@@ -47,12 +54,12 @@ int main( void )
 #endif
 
   // setup();
-
-  // for (;;)
-  // {
-  //   loop();
-  //   if (arduino::serialEventRun) arduino::serialEventRun();
-  // }
+  pinMode(13, OUTPUT);
+  for (;;)
+  {
+    if (arduino::serialEventRun) arduino::serialEventRun();
+    loop();
+  }
 
   return 0;
 }

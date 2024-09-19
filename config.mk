@@ -17,8 +17,6 @@ TARGET_SRAM =samd21_fuck_sram.elf
 # List of C source files.
 CSRCS = \
        $(ASF_PRJ_PATH)/common/utils/interrupt/interrupt_sam_nvic.c        \
-       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c \
-       $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source/system_samd21.c     \
        $(ASF_PRJ_PATH)/sam0/utils/stdio/read.c                            \
        $(ASF_PRJ_PATH)/sam0/utils/stdio/write.c                           \
        $(ASF_PRJ_PATH)/sam0/utils/syscalls/gcc/syscalls.c                 \
@@ -86,7 +84,8 @@ LIBS =  \
        arm_cortexM0l_math                                
 
 # Path relative to top level directory pointing to a linker script.
-LINKER_SCRIPT_FLASH = sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld
+# LINKER_SCRIPT_FLASH = $(ASF_PRJ_PATH)/sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld
+LINKER_SCRIPT_FLASH = flash_without_bootloader.ld
 LINKER_SCRIPT_SRAM  = sam0/utils/linker_scripts/samd21/gcc/samd21g18a_sram.ld
 
 # Path relative to top level directory pointing to a linker script.
