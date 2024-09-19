@@ -38,7 +38,8 @@
 
 # Path to top level ASF directory relative to this project directory.
 ASF_PRJ_PATH = /home/jambox/asf-standalone/xdk-asf-3.52.0
-ARDUINO_PRJ_PATH = /home/jambox/ArduinoCore-samd/cores/arduino
+ARDUINO_SAMD_PRJ_PATH = /home/jambox/ArduinoCore-samd/cores/arduino
+ARDUINO_API_PRJ_PATH = /home/jambox/ArduinoCore-API
 
 # Target CPU architecture: cortex-m3, cortex-m4
 ARCH = cortex-m0
@@ -58,7 +59,13 @@ CSRCS = \
        $(ASF_PRJ_PATH)/sam0/utils/cmsis/samd21/source/system_samd21.c     \
        $(ASF_PRJ_PATH)/sam0/utils/stdio/read.c                            \
        $(ASF_PRJ_PATH)/sam0/utils/stdio/write.c                           \
-       $(ASF_PRJ_PATH)/sam0/utils/syscalls/gcc/syscalls.c
+       $(ASF_PRJ_PATH)/sam0/utils/syscalls/gcc/syscalls.c                 \
+       $(ARDUINO_SAMD_PRJ_PATH)/wiring.c                                           \
+       $(ARDUINO_SAMD_PRJ_PATH)/wiring_analog.c \
+       $(ARDUINO_SAMD_PRJ_PATH)/wiring_digital.c \
+       $(ARDUINO_SAMD_PRJ_PATH)/wiring_private.c \
+       variant.cpp \
+
 
 # List of assembler source files.
 ASSRCS = 
@@ -77,6 +84,8 @@ INC_PATH = \
        $(ASF_PRJ_PATH)/sam0/utils/stdio/stdio_serial                      \
        $(ASF_PRJ_PATH)/thirdparty/CMSIS/Include                           \
        $(ASF_PRJ_PATH)/thirdparty/CMSIS/Lib/GCC \
+       $(ARDUINO_API_PRJ_PATH) \
+       $(ARDUINO_SAMD_PRJ_PATH) \
 
 # Additional search paths for libraries.
 LIB_PATH =  \

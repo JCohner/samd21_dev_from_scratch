@@ -135,6 +135,7 @@ cxxflags-gnu-y  += -Wpointer-arith
 
 # Preprocessor flags.
 cppflags-gnu-y  += $(foreach INC,$(INC_PATH),-I$(INC))
+cppflags-gnu-y  += -I. 
 asflags-gnu-y   += $(foreach INC,$(INC_PATH),'-Wa,-I$(INC)')
 
 # CPU specific flags.
@@ -162,7 +163,7 @@ asflags-gnu-y   += -x assembler-with-cpp
 # Compile C files using the GNU99 standard.
 cflags-gnu-y    += -std=gnu99
 # Compile C++ files using the GNU++98 standard.
-cxxflags-gnu-y  += -std=gnu++98
+cxxflags-gnu-y  += -std=c++11
 
 # Don't use strict aliasing (very common in embedded applications).
 cflags-gnu-y    += -fno-strict-aliasing
@@ -223,7 +224,6 @@ ar_flags = $(arflags-gnu-y)
 
 # Create object files list from source files list.
 obj-y                   := $(addprefix $(build-dir), $(addsuffix .o,$(basename $(CSRCS) $(ASSRCS))))
-obj-y										+= $(addprefix $(build-dir), main.o)
 $(info    obj-y is $(obj-y))
 #$(info $$obj-y is [${obj-y}])
 # Create dependency files list from source files list.
