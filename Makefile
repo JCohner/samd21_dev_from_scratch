@@ -71,10 +71,10 @@ MSG_SIZE                = "SIZE    $@"
 MSG_SYMBOL_TABLE        = "NM      $@"
 
 # Don't use make's built-in rules and variables
-# MAKEFLAGS       += -rR
+MAKEFLAGS       += -rR
 
 # Don't print 'Entering directory ...'
-# MAKEFLAGS       += --no-print-directory
+MAKEFLAGS       += --no-print-directory
 
 # Function for reversing the order of a list
 reverse = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1)))) $(firstword $(1))
@@ -358,3 +358,7 @@ endif
 %.bin: $(build-dir)$(target)
 	@echo $(MSG_BINARY_IMAGE)
 	$(Q)$(OBJCOPY) -O binary $< $(build-dir)$@
+
+.PHONY: build
+build:
+	$(MAKE) all BUILD_DIR=build
